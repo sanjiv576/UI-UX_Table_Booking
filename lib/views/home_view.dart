@@ -52,11 +52,16 @@ class _HomeState extends State<HomeView> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            // padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: width * 0.05, vertical: height * 0.02),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('HI'),
+                Text(
+                  'Hi User',
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
                 _horizontalGap,
                 const Card(
                   color: Colors.black,
