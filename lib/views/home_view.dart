@@ -1,15 +1,18 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:table_booking/provider/is_dark_theme.dart';
 import '../services/networking.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeState();
+  ConsumerState<HomeView> createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeView> {
+class _HomeState extends ConsumerState<HomeView> {
   var _products;
 
   late double width;
@@ -43,12 +46,34 @@ class _HomeState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    bool darkThemeValue = ref.watch(isDarkThemeProvider);
+
     // get sizes of the device, then, send to device size class
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     print('Width: $width');
     print('Height: $height');
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Home',
+        ),
+        elevation: 4,
+        actions: [
+          Switch(
+              value: darkThemeValue,
+              onChanged: (value) {
+                setState(() {
+                  // update the theme
+                  ref.watch(isDarkThemeProvider.notifier).updateTheme(value);
+
+                  darkThemeValue = value;
+
+                  log('Print : $darkThemeValue');
+                });
+              }),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -59,8 +84,8 @@ class _HomeState extends State<HomeView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hi User',
-                  style: Theme.of(context).textTheme.labelSmall,
+                  'Hi Sanjiv',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 _horizontalGap,
                 const Card(

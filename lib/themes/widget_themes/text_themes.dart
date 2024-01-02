@@ -111,7 +111,7 @@ class KTextThemes {
         // height: 20,
       ),
       labelLarge: TextStyle(
-        fontSize: 14,
+        fontSize: 18,
         letterSpacing: 0.15,
         fontWeight: FontWeight.w700,
         color: Colors.white,
