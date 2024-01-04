@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:table_booking/shared_prefs/app_theme_prefs.dart';
+
+import '../shared_prefs/app_theme_prefs.dart';
 
 // StateNotifier is used because it returns a subclass of StateNotifier of appThemePrefs
 final isDarkThemeProvider = StateNotifierProvider<IsDarkTheme, bool>(

@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:table_booking/provider/is_dark_theme.dart';
+
+import '../provider/is_dark_theme.dart';
 import '../services/networking.dart';
 
 class HomeView extends ConsumerStatefulWidget {
