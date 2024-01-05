@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-
 class BottomRichTextWidget extends StatelessWidget {
   const BottomRichTextWidget(
       {super.key,
@@ -20,12 +19,14 @@ class BottomRichTextWidget extends StatelessWidget {
         children: [
           TextSpan(
             text: message.toString(),
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           TextSpan(
             text: textButtonName.toString(),
-            style: const TextStyle(
-                fontSize: 16, decoration: TextDecoration.underline),
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(decoration: TextDecoration.underline),
             recognizer: TapGestureRecognizer()..onTap = onClick,
           ),
         ],
