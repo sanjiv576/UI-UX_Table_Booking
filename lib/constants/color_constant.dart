@@ -13,4 +13,6 @@ class KColors {
   static const Color light800 = Color(0xFF0C4A6E);
   static const Color light900 = Color(0xFF075985);
   static const Color introBgColor = Color(0xFFDD74AA);
+  static const Color darkPrimaryColor = Color(0xFF2D98C8);
+  static const Color lightPrimaryColor = Color(0xFF38BDF8);
 }
