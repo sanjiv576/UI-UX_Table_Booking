@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:table_booking/common/widgets/super_tooltip_widget.dart';
+import 'super_tooltip_widget.dart';
 
 class TextLabelWidget extends StatelessWidget {
   TextLabelWidget({

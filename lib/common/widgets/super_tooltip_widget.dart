@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_tooltip/super_tooltip.dart';
-import 'package:table_booking/provider/is_dark_theme.dart';
+import '../../provider/is_dark_theme.dart';
 
 class SuperToolTipWidget extends ConsumerStatefulWidget {
   const SuperToolTipWidget({

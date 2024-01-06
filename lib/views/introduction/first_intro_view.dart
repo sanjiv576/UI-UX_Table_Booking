@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../constants/color_constant.dart';
-import '../../router/app_routes.dart';
 
+import '../../router/app_routes.dart';
 import 'widget/intro_widget.dart';
 
 class FirstIntroView extends ConsumerStatefulWidget {
