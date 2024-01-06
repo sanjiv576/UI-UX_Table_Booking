@@ -1,5 +1,6 @@
-import 'package:table_booking/views/auth/login_view.dart';
-import 'package:table_booking/views/auth/signup_view.dart';
+import '../views/auth/login_view.dart';
+import '../views/auth/signup_view.dart';
+import '../views/auth/user_verification_view.dart';
 
 import '../views/introduction/first_intro_view.dart';
 import '../views/introduction/second_intro_view.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const String navigationRoute = '/navigation';
   static const String shoppingCartRoute = '/shoppingCart';
   static const String singleProductRoute = '/singleProduct';
+  static const String userVerificationRoute = '/verify';
 
   static getAppRoutes() {
     return {
@@ -37,6 +39,7 @@ class AppRoutes {
       thirdIntroRoute: (context) => const ThirdIntroScreen(),
       loginRoute: (context) => const LoginView(),
       signupRoute: (context) => const SignupView(),
+      userVerificationRoute: (context) => const UserVerificationView(),
     };
   }
 }
