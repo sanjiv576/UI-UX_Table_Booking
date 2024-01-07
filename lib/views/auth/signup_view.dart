@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_tooltip/super_tooltip.dart';
+import '../../services/user_verifcation.dart';
 import '../../common/widgets/bottom_richtext_widget.dart';
 import '../../models/user.dart';
 import '../../router/app_routes.dart';
@@ -12,6 +13,7 @@ import '../../router/app_routes.dart';
 import '../../common/widgets/elevated_button_widget.dart';
 import '../../common/widgets/text_label_widget.dart';
 import '../../common/widgets/textformfield_widget.dart';
+import '../../services/notification.dart';
 
 class SignupView extends ConsumerStatefulWidget {
   const SignupView({super.key});
@@ -73,7 +75,11 @@ class _SignupViewState extends ConsumerState<SignupView> {
         );
         return;
       }
-      Navigator.pushNamed(context, AppRoutes.userVerificationRoute);
+
+      int otp = UserVerification.getOtp;
+      SendNotification.showSimpleNotifications(otp: otp);
+
+      Navigator.pushNamed(context, AppRoutes.userVerificationRoute, arguments:otp );
     }
   }
 
