@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../router/app_routes.dart';
-import '../../common/widgets/bottom_richtext_widget.dart';
 
+import '../../common/widgets/bottom_richtext_widget.dart';
 import '../../common/widgets/outline_button_widget.dart';
+import '../../router/app_routes.dart';
 import 'widget/intro_widget.dart';
 
 class ThirdIntroScreen extends ConsumerStatefulWidget {
