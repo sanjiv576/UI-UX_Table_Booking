@@ -2,7 +2,7 @@ import '../views/auth/login_view.dart';
 import '../views/auth/signup_view.dart';
 import '../views/auth/user_verification_view.dart';
 import '../views/bottom_navigation_view.dart';
-import '../views/home_view.dart';
+import '../views/nav_bar/home_view.dart';
 import '../views/introduction/first_intro_view.dart';
 import '../views/introduction/second_intro_view.dart';
 import '../views/introduction/third_intro_view.dart';

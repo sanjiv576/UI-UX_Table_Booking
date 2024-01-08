@@ -1,9 +1,12 @@
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:table_booking/constants/color_constant.dart';
+import 'package:table_booking/services/user_verifcation.dart';
+import 'package:table_booking/views/auth/login_view.dart';
+import 'package:table_booking/views/auth/signup_view.dart';
+import 'package:table_booking/views/auth/user_verification_view.dart';
 
-import 'home_view.dart';
+import 'nav_bar/home_view.dart';
 import 'singel_product_view.dart';
 
 // select index as the user clicks
@@ -22,42 +25,56 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
     ref.watch(selectedIndexProvider.notifier).state = index;
   }
 
-  // all  widgets in a list
-
   final List<Widget> _screens = [
-    const HomeView(),
-    const SingleProductView(),
+    const LoginView(),
+    const SignupView(),
+    const UserVerificationView(),
   ];
-
-  // style for botttom navigation bar
-  final List<CurvedNavigationBarItem> _navigationIcons = [
-    const CurvedNavigationBarItem(
-        label: 'Home',
-        labelStyle: TextStyle(color: Colors.black),
-        child: Icon(
-          Icons.home,
-          color: Colors.black,
-        )),
-    const CurvedNavigationBarItem(
-        label: 'Shopping',
-        labelStyle: TextStyle(color: Colors.black),
-        child: Icon(
-          Icons.person,
-          color: Colors.black,
-        )),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-          items: _navigationIcons,
-          index: ref.watch(selectedIndexProvider),
-          onTap: _onTapItem,
-          backgroundColor: Colors.black,
-          animationCurve: Curves.easeInSine,
-          animationDuration: const Duration(milliseconds: 300),
-        ),
-        body: _screens.elementAt(ref.watch(selectedIndexProvider)));
+      // bottomNavigationBar: NavigationBar(
+      //   indicatorColor: Colors.white,
+      //   selectedIndex: ref.watch(selectedIndexProvider),
+      //   onDestinationSelected: _onTapItem,
+      //   backgroundColor: KColors.rose900,
+      //   destinations: const [
+      //     NavigationDestination(
+      //         icon: Icon(
+      //           Icons.home,
+      //           color: Colors.white,
+      //         ),
+      //         label: 'Home'),
+      //     NavigationDestination(icon: Icon(Icons.person), label: 'b'),
+      //     NavigationDestination(icon: Icon(Icons.lock), label: 'c'),
+      //   ],
+      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Business',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+          ),
+        ],
+        currentIndex: ref.watch(selectedIndexProvider),
+        selectedItemColor: Colors.yellow,
+
+        // selectedIconTheme: const IconThemeData(color: Colors.black),
+        unselectedItemColor: Colors.white,
+        backgroundColor: KColors.rose900,
+        onTap: _onTapItem,
+      ),
+      body: _screens.elementAt(
+        ref.watch(selectedIndexProvider),
+      ),
+    );
   }
 }

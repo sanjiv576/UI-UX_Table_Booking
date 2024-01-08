@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../provider/is_dark_theme.dart';
-import '../services/networking.dart';
+import '../../provider/is_dark_theme.dart';
+import '../../services/networking.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
