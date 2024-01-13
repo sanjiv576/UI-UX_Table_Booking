@@ -11,7 +11,6 @@ import '../../provider/is_dark_theme.dart';
 import 'widgets/custom_detect_card_widget.dart';
 import 'widgets/custom_tilelist_widget.dart';
 
-
 final addFavoriteProvider = StateProvider<bool>((ref) => false);
 
 class RestaurantView extends ConsumerStatefulWidget {
@@ -22,13 +21,13 @@ class RestaurantView extends ConsumerStatefulWidget {
 }
 
 class _RestaurantViewState extends ConsumerState<RestaurantView> {
-  SizedBox gap = const SizedBox(height: 10);
+  SizedBox gap = const SizedBox(height: 16);
   final _reviewController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   RestaurantEntity? _restaurantEntity;
   late bool isDark;
   // late Color activeTextColor;
-  bool _isFavoriteRestaurant = false;
+  final bool _isFavoriteRestaurant = false;
 
   late List<ReviewEntity> _restaurantReviewsList;
   late String _favoriteId;
@@ -56,10 +55,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
     //     ? AppColorConstant.nightTextColor
     //     : AppColorConstant.dayTextColor;
 
-
     _restaurantReviewsList = _restaurantEntity!.reviews!;
-
-
 
     // _isFavorite();
 
@@ -143,72 +139,150 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
 
     _restaurantReviewsList = _restaurantEntity!.reviews!;
     return Scaffold(
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      appBar: AppBar(
+        title: Text(_restaurantEntity!.name),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: ListView(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                'https://hips.hearstapps.com/housebeautiful.cdnds.net/17/42/2048x1024/landscape-1508239345-family-eating-lunch-close-up-of-food-on-wooden-table.jpg?resize=1200:*',
-               
+              Container(
+                height: 160,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    'assets/images/restaurants/${_restaurantEntity!.picture}',
+                  ),
+                )),
               ),
+              // Image.asset(
+              //   'assets/images/restaurants/${_restaurantEntity!.picture}',
+              // ),
               gap,
-              Text(
-                _restaurantEntity!.name,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  fontWeight: FontWeight.bold
-                )
-              ),
+              Text(_restaurantEntity!.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium!
+                      .copyWith(fontWeight: FontWeight.bold)),
               gap,
               Row(
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          leading: Wrap(
-                            children: [
-                              Icon(Icons.star, color: Colors.red),
-                              Icon(Icons.star, color: Colors.red),
-                              Icon(Icons.star, color: Colors.red),
-                              Icon(Icons.star_half, color: Colors.red),
-                            ],
-                          ),
-                        ),
-                        CustomListTileWidget(
-                          iconData: FontAwesomeIcons.locationDot,
-                          text: _restaurantEntity!.location.toString(),
-                        ),
-                      ],
+                  Flexible(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      leading: const Icon(
+                        FontAwesomeIcons.locationDot,
+                        size: 18,
+                      ),
+                      title: Text(
+                        _restaurantEntity!.location,
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        CustomListTileWidget(
-                            text:
-                                // '${restaurantState.allReviews.length} Reviews',
-                                '${_restaurantReviewsList.length} Reviews',
-                            iconData: Icons.restaurant_menu),
-                        CustomListTileWidget(
-                            // text: '9812345678',
-                            text: _restaurantEntity!.contact.toString(),
-                            iconData: FontAwesomeIcons.phone),
-                      ],
+                  Flexible(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      leading: const Icon(
+                        Icons.call,
+                        size: 18,
+                      ),
+                      title: Text(
+                        _restaurantEntity!.contact,
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
                     ),
                   ),
                 ],
               ),
+
+              Row(
+                children: [
+                  Flexible(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      leading: const Icon(Icons.calendar_month),
+                      title: Text(
+                        'Booking ${_restaurantEntity!.bookingTime}',
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      leading: const Icon(
+                        Icons.star,
+                        size: 18,
+                      ),
+                      title: Text(
+                        ' ${_restaurantEntity!.bookingTime} Rating',
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Expanded(
+              //       child: Column(
+              //         children: [
+              //           ListTile(
+              //             contentPadding: const EdgeInsets.all(0),
+              //             leading: const Icon(FontAwesomeIcons.locationDot),
+              //             title: Text(
+              //               _restaurantEntity!.location,
+              //               // style: Theme.of(context).textTheme.labelMedium,
+              //             ),
+              //           ),
+              //           ListTile(
+              //             contentPadding: const EdgeInsets.all(0),
+              //             leading: const Icon(Icons.calendar_month),
+              //             title: Text(
+              //               'Booking ${_restaurantEntity!.bookingTime}',
+              //               // style: Theme.of(context).textTheme.labelMedium,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.end,
+              //         children: [
+              //           ListTile(
+              //             contentPadding: const EdgeInsets.all(0),
+              //             leading: const Icon(Icons.call),
+              //             title: Text(
+              //               _restaurantEntity!.contact,
+              //               // style: Theme.of(context).textTheme.labelMedium,
+              //             ),
+              //           ),
+              //           ListTile(
+              //             contentPadding: const EdgeInsets.all(0),
+              //             leading: const Icon(Icons.start),
+              //             title: Text(
+              //               '${_restaurantEntity!.rating} Rating',
+              //               // style: Theme.of(context).textTheme.labelMedium,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     )
+              //   ],
+              // ),
               gap,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomDetectCardWidget(
-                    text: 'Reserve Table',
+                    text: 'Book Table',
                     iconData: Icons.table_bar,
                     onTap: () {
                       // Navigator.pushNamed(
@@ -243,35 +317,47 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                 ],
               ),
               gap,
+
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
                 leading: IconButton(
                   onPressed: () {
                     // _handleFavorite();
+
+                    ref.watch(addFavoriteProvider.notifier).state =
+                        !ref.watch(addFavoriteProvider);
                   },
                   icon: Icon(
-                    Icons.favorite,
-                    color: _isFavoriteRestaurant ? Colors.pink : Colors.white,
+                    ref.watch(addFavoriteProvider)
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: ref.watch(addFavoriteProvider)
+                        ? Colors.pink
+                        : Colors.black,
                     size: 40,
                   ),
                 ),
                 title: Text(
-                  '${_isFavoriteRestaurant ? 'Added' : 'Add'} to favorite',
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
+                  '${ref.watch(addFavoriteProvider) ? 'Added' : 'Add'} to favorite',
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
-                  
-                ),
+              ),
+              gap,
+
+              Text(
+                _restaurantEntity!.description,
+                style: Theme.of(context).textTheme.labelSmall,
               ),
               gap,
               const Divider(thickness: 3),
               gap,
               Text(
                 'Reviews',
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-               
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               gap,
               Form(
@@ -290,19 +376,16 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText: 'Leave a review',
+                    hintText: 'Enter review here',
                     suffixIcon: IconButton(
                         onPressed: () {
                           // _reviewSubmit();
                         },
                         icon: Icon(
-                          Icons.send,
+                          FontAwesomeIcons.telegram,
                           color: isDark ? Colors.white : Colors.blue,
                         )),
-                    hintStyle: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic),
+                    hintStyle: Theme.of(context).textTheme.titleSmall,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -317,31 +400,23 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                 // itemCount: restaurantState.allReviews.length,
                 itemCount: _restaurantReviewsList.length,
                 itemBuilder: ((context, index) {
-
                   return ListTile(
                     contentPadding: const EdgeInsets.all(0),
                     leading: CircleAvatar(
                       radius: 40,
-                      backgroundImage: NetworkImage(
-                        'https://previews.123rf.com/images/triken/triken1608/triken160800028/61320729-male-avatar-profile-picture-default-user-avatar-guest-avatar-simply-human-head-vector.jpg',
-                        // ApiEndpoints.imageUrl +
-                        //     // _restaurantEntity!.reviews![index].userPicture,
-                        //     _restaurantReviewsList[index].userPicture,
-                      ),
+                      backgroundImage: AssetImage(
+                          'assets/images/users/${_restaurantEntity!.reviews![index].userPicture}'),
                     ),
                     title: Text(
-                      // 'User full name',
-                      // _restaurantEntity!.reviews![index].userName,
                       _restaurantReviewsList[index].userName,
-                     style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     subtitle: Text(
                       // 'users\' review here',
                       // _restaurantEntity!.reviews![index].text,
                       _restaurantReviewsList[index].text,
 
-                     style: Theme.of(context).textTheme.titleMedium,
-                    
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     // trailing: Wrap(
                     //   direction: Axis.horizontal,
@@ -363,7 +438,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
             ],
           ),
         ]),
-      )),
+      ),
     );
   }
 }
