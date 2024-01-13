@@ -10,6 +10,7 @@ class AppThemes {
       useMaterial3: true,
       fontFamily: 'Roboto',
       scaffoldBackgroundColor: Colors.white,
+      colorScheme: const ColorScheme.light(background: KColors.rose900),
       textTheme: KTextThemes.lightTextThemes(),
       iconTheme: const IconThemeData(
         color: Colors.black,
@@ -35,7 +36,7 @@ class AppThemes {
       iconTheme: const IconThemeData(color: Colors.white),
       fontFamily: 'Roboto',
       scaffoldBackgroundColor: KColors.darkBgColor,
-      colorScheme: const ColorScheme.dark(background: Colors.yellow),
+      colorScheme: const ColorScheme.dark(background: KColors.rose900),
       appBarTheme: const AppBarTheme(
         elevation: 4,
         backgroundColor: KColors.rose900,

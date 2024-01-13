@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../router/app_routes.dart';
-import '../../services/notification.dart';
+
 import '../../common/widgets/bottom_richtext_widget.dart';
 import '../../common/widgets/elevated_button_widget.dart';
-
 import '../../common/widgets/reusable_pinput_widget.dart';
 import '../../common/widgets/snackbar_message_widget.dart';
+import '../../router/app_routes.dart';
+import '../../services/notification.dart';
 import '../../services/user_verifcation.dart';
 
 class UserVerificationView extends ConsumerStatefulWidget {

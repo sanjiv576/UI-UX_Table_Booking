@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:table_booking/constants/color_constant.dart';
-import 'package:table_booking/services/user_verifcation.dart';
-import 'package:table_booking/views/auth/login_view.dart';
-import 'package:table_booking/views/auth/signup_view.dart';
-import 'package:table_booking/views/auth/user_verification_view.dart';
+import '../constants/color_constant.dart';
+import 'nav_bar/booking_history_view.dart';
+import 'nav_bar/profile_view.dart';
+import 'nav_bar/search_view.dart';
 
 import 'nav_bar/home_view.dart';
-import 'singel_product_view.dart';
 
 // select index as the user clicks
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
@@ -26,29 +24,14 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
   }
 
   final List<Widget> _screens = [
-    const LoginView(),
-    const SignupView(),
-    const UserVerificationView(),
+    const HomeView(),
+    const SearchView(),
+    const BookingHistoryView(),
+    const ProfileView(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar: NavigationBar(
-      //   indicatorColor: Colors.white,
-      //   selectedIndex: ref.watch(selectedIndexProvider),
-      //   onDestinationSelected: _onTapItem,
-      //   backgroundColor: KColors.rose900,
-      //   destinations: const [
-      //     NavigationDestination(
-      //         icon: Icon(
-      //           Icons.home,
-      //           color: Colors.white,
-      //         ),
-      //         label: 'Home'),
-      //     NavigationDestination(icon: Icon(Icons.person), label: 'b'),
-      //     NavigationDestination(icon: Icon(Icons.lock), label: 'c'),
-      //   ],
-      // ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -56,18 +39,23 @@ class _BottomNavigationViewState extends ConsumerState<BottomNavigationView> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.search),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.calendar_month),
+            label: 'Booking',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
+        type: BottomNavigationBarType.fixed,
         currentIndex: ref.watch(selectedIndexProvider),
-        selectedItemColor: Colors.yellow,
-
-        // selectedIconTheme: const IconThemeData(color: Colors.black),
+        selectedItemColor: Colors.white,
+        elevation: 2,
+        selectedIconTheme: const IconThemeData(color: Colors.yellow),
         unselectedItemColor: Colors.white,
         backgroundColor: KColors.rose900,
         onTap: _onTapItem,
