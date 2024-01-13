@@ -2,9 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../data/restaurant_data.dart';
+import '../../data/story_data.dart';
+import '../../models/restaurant_entity.dart';
+import '../../models/story_entity.dart';
 
+import '../restaurants/widgets/all_restaurants_widget.dart';
+import '../restaurants/widgets/popular_restaurants_widget.dart';
+import '../restaurants/widgets/story_widget.dart';
 import '../../provider/is_dark_theme.dart';
-import '../../services/networking.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -13,37 +19,30 @@ class HomeView extends ConsumerStatefulWidget {
   ConsumerState<HomeView> createState() => _HomeState();
 }
 
-class _HomeState extends ConsumerState<HomeView> {
-  var _products;
-
+class _HomeState extends ConsumerState<HomeView> with TickerProviderStateMixin {
   late double width;
   late double height;
+
+  List<RestaurantEntity> allRestaurants = RestaurantData.restaurants;
+  List<RestaurantEntity> popularRestaurants = RestaurantData.restaurants;
+  List<StoryEntity> stories = StoryData.stories;
+
+  final _verticalGap = const SizedBox(height: 16);
+  final _horizontalGap = const SizedBox(width: 16);
+
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-
-    getProductData();
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  void getProductData() async {
-    OnlineStore onlineStore = OnlineStore();
-
-    var products = await onlineStore.getData();
-
-    if (products != null) {
-      for (int i = 0; i < products.length; i++) {
-        print('id: ${products[i].id}');
-        print('Product ${i + 1}: ${products[i]}');
-        print('---------------');
-      }
-
-      _products = products;
-    }
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
-
-  final _verticalGap = const SizedBox(height: 30);
-  final _horizontalGap = const SizedBox(width: 20);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +51,8 @@ class _HomeState extends ConsumerState<HomeView> {
     // get sizes of the device, then, send to device size class
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    print('Width: $width');
-    print('Height: $height');
+    log('Width: $width');
+    log('Height: $height');
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -85,46 +84,50 @@ class _HomeState extends ConsumerState<HomeView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hi Sanjiv',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                _horizontalGap,
-                const Card(
-                  color: Colors.black,
-                  child: ListTile(),
+                  'Hi 👋, Sanjiv',
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 _verticalGap,
-                const Text('Product categories'),
+                Text(
+                  'Restaurant Stories',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
                 _verticalGap,
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (int i = 0; i < 10; i++) ...{
-                        Container(
-                          height: 100,
-                          width: 100,
-                          color: Colors.black,
-                        ),
-                        _horizontalGap,
-                      }
-                    ],
-                  ),
+                  child: StoryWidget(
+                      stories: stories,
+                      verticalGap: _verticalGap,
+                      horizontalGap: _horizontalGap),
                 ),
                 _verticalGap,
-                const Text('All Products'),
+                TabBar.secondary(
+                  controller: _tabController,
+                  indicatorColor: darkThemeValue ? Colors.white : Colors.black,
+                  labelStyle: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
+                  tabs: const <Widget>[
+                    Tab(
+                      text: 'All',
+                    ),
+                    Tab(text: 'Popular'),
+                  ],
+                ),
                 _verticalGap,
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < 10; i++) ...{
-                        Container(
-                          height: 100,
-                          width: double.infinity,
-                          color: Colors.red,
-                        ),
-                        _verticalGap
-                      }
+                SizedBox(
+                  height: height * 0.7,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: <Widget>[
+                      AllRestaurantsWidget(allRestaurants: allRestaurants),
+                      PopularRestaurantsWidget(
+                          popularRestaurants: popularRestaurants,
+                          verticalGap: _verticalGap),
                     ],
                   ),
                 ),
