@@ -12,7 +12,7 @@ class AllRestaurantsWidget extends ConsumerWidget {
   });
 
   final List<RestaurantEntity> allRestaurants;
-  final SizedBox _verticalGap = const SizedBox(height: 4);
+  final SizedBox _verticalGap = const SizedBox(height: 16);
   final SizedBox _horizontalGap = const SizedBox(width: 4);
 
   late double screenHeight;
@@ -21,7 +21,7 @@ class AllRestaurantsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkTheme = ref.watch(isDarkThemeProvider);
- 
+
     return SingleChildScrollView(
       child: Column(
         children: [

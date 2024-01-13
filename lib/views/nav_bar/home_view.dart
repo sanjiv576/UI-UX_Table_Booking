@@ -77,9 +77,7 @@ class _HomeState extends ConsumerState<HomeView> with TickerProviderStateMixin {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            // padding: const EdgeInsets.all(12.0),
-            padding: EdgeInsets.symmetric(
-                horizontal: width * 0.05, vertical: height * 0.02),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -21,9 +21,24 @@ class RestaurantCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: isDarkTheme ? Colors.white : KColors.light100,
-      elevation: 3,
+    return Container(
+      //     width: 100,
+      // height: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: isDarkTheme ? Colors.white : KColors.light100,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black,
+            offset: Offset(
+              3.0,
+              8.0,
+            ), // Adjust the values to control the shadow direction
+            blurRadius: 6.0,
+            spreadRadius: 0.0,
+          ),
+        ],
+      ),
       child: Row(
         children: [
           Expanded(
@@ -31,7 +46,7 @@ class RestaurantCardWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Container(
-                height: 130,
+                height: 150,
                 decoration: BoxDecoration(
                   color: Colors.pink,
                   borderRadius: BorderRadius.circular(8),
@@ -49,7 +64,7 @@ class RestaurantCardWidget extends StatelessWidget {
             flex: 3,
             child: SizedBox(
               // color: Colors.red,
-              height: 130,
+              // height: 130,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
