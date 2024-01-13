@@ -27,7 +27,7 @@ class KTextThemes {
         // height: 28,
       ),
       titleMedium: TextStyle(
-        fontSize: 16,
+        fontSize: 18,
         letterSpacing: 0.15,
         fontWeight: FontWeight.w700,
         color: Colors.black,
@@ -35,7 +35,7 @@ class KTextThemes {
         // height: 24,
       ),
       titleSmall: TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         letterSpacing: 0.15,
         fontWeight: FontWeight.w500,
         color: Colors.black,
