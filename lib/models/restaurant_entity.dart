@@ -1,3 +1,5 @@
+import 'package:http/http.dart';
+
 import 'review_entity.dart';
 
 class RestaurantEntity {
@@ -10,6 +12,7 @@ class RestaurantEntity {
   final String bookingTime;
   final String rating;
   final String contact;
+  final String description;
   final List<ReviewEntity>? reviews;
 
   RestaurantEntity({
@@ -21,6 +24,7 @@ class RestaurantEntity {
     required this.bookingTime,
     required this.rating,
     required this.contact,
+    required this.description,
     this.offer,
     this.reviews,
   });
