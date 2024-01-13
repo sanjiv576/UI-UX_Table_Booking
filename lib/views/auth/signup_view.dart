@@ -30,8 +30,8 @@ class _SignupViewState extends ConsumerState<SignupView> {
 
   final _fullNameController = TextEditingController(text: 'Sanjiv Shrestha');
   final _emailController = TextEditingController(text: 'shrestha@gmail.com');
-  final _contactController = TextEditingController();
-  final _passwordController = TextEditingController(text: 'a');
+  final _contactController = TextEditingController(text: '98');
+  final _passwordController = TextEditingController(text: 'aa');
   final _confirmPasswordController = TextEditingController(text: 'aa');
   final keyboardType = TextInputType.name;
 
@@ -57,13 +57,13 @@ class _SignupViewState extends ConsumerState<SignupView> {
   void _onSignUp() {
     if (_formKey.currentState!.validate()) {
       String name = _fullNameController.text.trim();
-      String contact = _contactController.text.trim() ?? 'NA';
+      String contact = _contactController.text.trim();
       String email = _emailController.text.trim();
       String password = _passwordController.text.trim();
       String confirmPassword = _confirmPasswordController.text.trim();
 
-      UserEntity user =
-          UserEntity(fullName: name, email: email, password: password);
+      UserEntity user = UserEntity(
+          fullName: name, contact: contact, email: email, password: password);
 
       if (confirmPassword != password) {
         log('Passwords do not matcj');
@@ -78,7 +78,8 @@ class _SignupViewState extends ConsumerState<SignupView> {
       int otp = UserVerification.getOtp;
       SendNotification.showSimpleNotifications(otp: otp);
 
-      Navigator.pushNamed(context, AppRoutes.userVerificationRoute, arguments:otp );
+      Navigator.pushNamed(context, AppRoutes.userVerificationRoute,
+          arguments: otp);
     }
   }
 
@@ -118,13 +119,14 @@ class _SignupViewState extends ConsumerState<SignupView> {
                 TextLabelWidget(
                   labelName: 'Contact',
                   horizontalGap: _horizontalGap,
-                  isRequired: false,
-                  tooltipMessage: 'Contact is an optional.',
+                  isRequired: true,
+                  tooltipMessage:
+                      'Contact receives an OTP code for verification.',
                 ),
                 _verticalGap,
                 TextFormFieldWidget(
-                  isRequired: false,
-                  helperText: 'Contact can be empty.',
+                  isRequired: true,
+                  helperText: 'Contact cannot be empty.',
                   controller: _contactController,
                   hideValue: false,
                   keyboardType: TextInputType.phone,

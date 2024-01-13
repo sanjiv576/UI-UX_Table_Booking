@@ -6,7 +6,6 @@ import '../views/introduction/first_intro_view.dart';
 import '../views/introduction/second_intro_view.dart';
 import '../views/introduction/third_intro_view.dart';
 import '../views/nav_bar/home_view.dart';
-import '../views/singel_product_view.dart';
 import '../views/splash_view.dart';
 
 class AppRoutes {
@@ -29,7 +28,6 @@ class AppRoutes {
   static getAppRoutes() {
     return {
       homeRoute: (context) => const HomeView(),
-      singleProductRoute: (context) => const SingleProductView(),
       navigationRoute: (context) => const BottomNavigationView(),
       splashRoute: (context) => const SplashView(),
       firstIntroRoute: (context) => const FirstIntroView(),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../constants/color_constant.dart';
 import 'nav_bar/booking_history_view.dart';
+import 'nav_bar/home_view.dart';
 import 'nav_bar/profile_view.dart';
 import 'nav_bar/search_view.dart';
-
-import 'nav_bar/home_view.dart';
 
 // select index as the user clicks
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
