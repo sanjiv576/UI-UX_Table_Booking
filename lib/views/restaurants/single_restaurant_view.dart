@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../router/app_routes.dart';
 
 import '../../common/widgets/snackbar_message_widget.dart';
 import '../../models/restaurant_entity.dart';
 import '../../models/review_entity.dart';
 import '../../provider/is_dark_theme.dart';
 import 'widgets/custom_detect_card_widget.dart';
-import 'widgets/custom_tilelist_widget.dart';
 
 final addFavoriteProvider = StateProvider<bool>((ref) => false);
 
@@ -170,7 +170,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
               gap,
               Row(
                 children: [
-                  Flexible(
+                  Expanded(
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(0),
                       leading: const Icon(
@@ -183,7 +183,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                       ),
                     ),
                   ),
-                  Flexible(
+                  Expanded(
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(0),
                       leading: const Icon(
@@ -201,7 +201,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
 
               Row(
                 children: [
-                  Flexible(
+                  Expanded(
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(0),
                       leading: const Icon(Icons.calendar_month),
@@ -211,7 +211,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                       ),
                     ),
                   ),
-                  Flexible(
+                  Expanded(
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(0),
                       leading: const Icon(
@@ -219,77 +219,27 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                         size: 18,
                       ),
                       title: Text(
-                        ' ${_restaurantEntity!.bookingTime} Rating',
+                        ' ${_restaurantEntity!.rating} Rating',
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ),
                   ),
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Expanded(
-              //       child: Column(
-              //         children: [
-              //           ListTile(
-              //             contentPadding: const EdgeInsets.all(0),
-              //             leading: const Icon(FontAwesomeIcons.locationDot),
-              //             title: Text(
-              //               _restaurantEntity!.location,
-              //               // style: Theme.of(context).textTheme.labelMedium,
-              //             ),
-              //           ),
-              //           ListTile(
-              //             contentPadding: const EdgeInsets.all(0),
-              //             leading: const Icon(Icons.calendar_month),
-              //             title: Text(
-              //               'Booking ${_restaurantEntity!.bookingTime}',
-              //               // style: Theme.of(context).textTheme.labelMedium,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.end,
-              //         children: [
-              //           ListTile(
-              //             contentPadding: const EdgeInsets.all(0),
-              //             leading: const Icon(Icons.call),
-              //             title: Text(
-              //               _restaurantEntity!.contact,
-              //               // style: Theme.of(context).textTheme.labelMedium,
-              //             ),
-              //           ),
-              //           ListTile(
-              //             contentPadding: const EdgeInsets.all(0),
-              //             leading: const Icon(Icons.start),
-              //             title: Text(
-              //               '${_restaurantEntity!.rating} Rating',
-              //               // style: Theme.of(context).textTheme.labelMedium,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     )
-              //   ],
-              // ),
+
               gap,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomDetectCardWidget(
                     text: 'Book Table',
                     iconData: Icons.table_bar,
                     onTap: () {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   AppRoute.customerReservationRoute,
-                      //   arguments: _restaurantEntity,
-                      // );
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.reservationRoute,
+                        arguments: _restaurantEntity,
+                      );
 
                       // Navigator.pushNamed(
                       //     context, AppRoute.customerReservationRoute,

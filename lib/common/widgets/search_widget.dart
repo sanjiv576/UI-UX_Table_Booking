@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../provider/is_dark_theme.dart';
 
 class SearchBarWidget extends ConsumerWidget {

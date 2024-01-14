@@ -2,15 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../data/restaurant_data.dart';
 import '../../data/story_data.dart';
 import '../../models/restaurant_entity.dart';
 import '../../models/story_entity.dart';
-
+import '../../provider/is_dark_theme.dart';
 import '../restaurants/widgets/all_restaurants_widget.dart';
 import '../restaurants/widgets/popular_restaurants_widget.dart';
 import '../restaurants/widgets/story_widget.dart';
-import '../../provider/is_dark_theme.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});

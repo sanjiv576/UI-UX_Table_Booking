@@ -1,4 +1,5 @@
-import 'package:table_booking/views/restaurants/single_restaurant_view.dart';
+import '../views/reservation/reservation_view.dart';
+import '../views/restaurants/single_restaurant_view.dart';
 
 import '../views/auth/login_view.dart';
 import '../views/auth/signup_view.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const String navigationRoute = '/navigation';
   static const String userVerificationRoute = '/verify';
   static const String singleRestaurantRoute = '/restaurant';
+  static const String reservationRoute = '/reservation';
 
   static getAppRoutes() {
     return {
@@ -37,7 +39,8 @@ class AppRoutes {
       loginRoute: (context) => const LoginView(),
       signupRoute: (context) => const SignupView(),
       userVerificationRoute: (context) => const UserVerificationView(),
-      singleRestaurantRoute: (context) => RestaurantView(),
+      singleRestaurantRoute: (context) => const RestaurantView(),
+      reservationRoute: (context) => const ReservationView(),
     };
   }
 }
