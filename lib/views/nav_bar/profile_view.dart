@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:table_booking/common/widgets/elevated_button_widget.dart';
-import 'package:table_booking/common/widgets/text_label_widget.dart';
-import 'package:table_booking/common/widgets/textformfield_widget.dart';
-import 'package:table_booking/constants/color_constant.dart';
-import 'package:table_booking/provider/is_dark_theme.dart';
+import '../../common/widgets/elevated_button_widget.dart';
+import '../../common/widgets/text_label_widget.dart';
+import '../../common/widgets/textformfield_widget.dart';
+import '../../constants/color_constant.dart';
+import '../../provider/is_dark_theme.dart';
 
 import '../auth/login_view.dart';
 import 'widgets/profile_edit_widget.dart';
@@ -258,7 +258,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                 isRequired: true,
                                 helperText: 'Please, fill current password',
                                 controller: currentPasswordController,
-                                hideValue: hidePasswordValue,
+                                hideValue: hideCurrentPasswordValue,
                                 keyboardType: TextInputType.name,
                                 hintTextLable: 'Enter current password',
                                 prefixIconData: Icons.lock,
@@ -447,7 +447,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 },
                 userBackgroundImage: _img != null
                     ? FileImage(_img!) as ImageProvider<Object>
-                    : const AssetImage('assets/images/default_user.png'),
+                    : const AssetImage('assets/images/users/default_user.png'),
                 radius: 60,
               ),
               verticalGap,

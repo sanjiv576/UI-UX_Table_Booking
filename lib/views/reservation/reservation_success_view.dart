@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:table_booking/common/widgets/elevated_button_widget.dart';
-import 'package:table_booking/provider/is_dark_theme.dart';
-import 'package:table_booking/router/app_routes.dart';
+import '../../common/widgets/elevated_button_widget.dart';
+import '../../provider/is_dark_theme.dart';
+import '../../router/app_routes.dart';
 
 class ReservationSuccessView extends ConsumerStatefulWidget {
   const ReservationSuccessView({super.key});

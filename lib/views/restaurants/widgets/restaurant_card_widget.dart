@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../router/app_routes.dart';
 
 import '../../../constants/color_constant.dart';
 import '../../../models/restaurant_entity.dart';
+import '../../../router/app_routes.dart';
 import 'restaurant_label_widget.dart';
 
 class RestaurantCardWidget extends StatelessWidget {

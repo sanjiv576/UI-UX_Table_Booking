@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../router/app_routes.dart';
 
 import '../../common/widgets/snackbar_message_widget.dart';
 import '../../models/restaurant_entity.dart';
 import '../../models/review_entity.dart';
 import '../../provider/is_dark_theme.dart';
+import '../../router/app_routes.dart';
 import 'widgets/custom_detect_card_widget.dart';
 
 final addFavoriteProvider = StateProvider<bool>((ref) => false);
