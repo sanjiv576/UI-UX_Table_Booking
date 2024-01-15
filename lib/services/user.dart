@@ -98,8 +98,10 @@ class User {
     );
 
     for (var restaurant in RestaurantData.restaurants) {
-      restaurant.reviews!.insert(0, newReview);
-      break;
+      if (restaurant.restaurantId == restaurantId) {
+        restaurant.reviews!.insert(0, newReview);
+        break;
+      }
     }
   }
 
