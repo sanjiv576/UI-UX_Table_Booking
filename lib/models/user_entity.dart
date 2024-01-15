@@ -2,11 +2,11 @@ import 'reservation_entity.dart';
 
 class UserEntity {
   final String id;
-  final String fullName;
-  final String contact;
-  final String picture;
-  final String email;
-  final String password;
+  String fullName;
+  String contact;
+  String picture;
+  String email;
+  String password;
   final List<ReservationEntity> reservations;
 
   UserEntity({
