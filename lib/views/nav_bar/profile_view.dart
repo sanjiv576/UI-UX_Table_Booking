@@ -1,17 +1,22 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../common/widgets/snackbar_message_widget.dart';
+import '../loading_screen_view.dart';
 import '../../common/widgets/elevated_button_widget.dart';
 import '../../common/widgets/text_label_widget.dart';
 import '../../common/widgets/textformfield_widget.dart';
 import '../../constants/color_constant.dart';
+import '../../models/user_entity.dart';
 import '../../provider/is_dark_theme.dart';
 
+import '../../services/user.dart';
 import '../auth/login_view.dart';
 import 'widgets/profile_edit_widget.dart';
 import 'widgets/profile_widget.dart';
@@ -31,11 +36,12 @@ class ProfileView extends ConsumerStatefulWidget {
 class _ProfileViewState extends ConsumerState<ProfileView> {
   final verticalGap = const SizedBox(height: 16);
   final horizontalGap = const SizedBox(width: 16);
-  String label = 'Reserv';
+  late UserEntity user;
+  late int totalReview;
 
-  final nameController = TextEditingController(text: 'Sanjiv Shrestha');
-  final contactController = TextEditingController(text: '9812345678');
-  final emailController = TextEditingController(text: 'shrestha@gmail.com');
+  late TextEditingController nameController;
+  late TextEditingController contactController;
+  late TextEditingController emailController;
 
   final currentPasswordController = TextEditingController();
   final passwordController = TextEditingController();
@@ -46,6 +52,17 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   bool hideCurrentPasswordValue = true;
 
   final passwordFormKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    user = User.currentUser!;
+    totalReview = User.getReviewsLength();
+
+    nameController = TextEditingController(text: user.fullName);
+    contactController = TextEditingController(text: user.contact);
+    emailController = TextEditingController(text: user.email);
+    super.initState();
+  }
 
   void _reset() {
     nameController.clear();
@@ -128,9 +145,26 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                   onPressed: () {
                                     ref.watch(editProvider.notifier).state =
                                         !ref.watch(editProvider);
+                                    if (isEditing) {
+                                      var response = User.changeName(
+                                          newName: nameController.text.trim());
 
-                                    Navigator.pop(context);
-                                    _updateDetailsBottomSheet();
+                                      response.fold((fail) {
+                                        Navigator.pop(context);
+
+                                        nameController = TextEditingController(
+                                            text: user.fullName);
+
+                                        showSnackbarMsg(
+                                            context: context,
+                                            targetTitle: 'Error',
+                                            targetMessage: fail.error,
+                                            type: ContentType.failure);
+                                      }, (r) {
+                                        Navigator.pop(context);
+                                        _updateDetailsBottomSheet();
+                                      });
+                                    }
                                   },
                                   icon: isEditing
                                       ? const Icon(Icons.send)
@@ -162,8 +196,28 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                     ref.watch(editProvider.notifier).state =
                                         !ref.watch(editProvider);
 
-                                    Navigator.pop(context);
-                                    _updateDetailsBottomSheet();
+                                    if (isEditing) {
+                                      var response = User.changeContact(
+                                          newContact:
+                                              contactController.text.trim());
+
+                                      response.fold((fail) {
+                                        Navigator.pop(context);
+
+                                        contactController =
+                                            TextEditingController(
+                                                text: user.contact);
+
+                                        showSnackbarMsg(
+                                            context: context,
+                                            targetTitle: 'Error',
+                                            targetMessage: fail.error,
+                                            type: ContentType.failure);
+                                      }, (r) {
+                                        Navigator.pop(context);
+                                        _updateDetailsBottomSheet();
+                                      });
+                                    }
                                   },
                                   icon: isEditing
                                       ? const Icon(Icons.send)
@@ -184,7 +238,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               child: TextFormFieldWidget(
                                 isTextEditable: isEditing,
                                 isRequired: false,
-                                helperText: 'Contact cannot be empty.',
+                                helperText: 'Email cannot be empty.',
                                 controller: emailController,
                                 hideValue: false,
                                 keyboardType: TextInputType.emailAddress,
@@ -194,9 +248,27 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                   onPressed: () {
                                     ref.watch(editProvider.notifier).state =
                                         !ref.watch(editProvider);
+                                    if (isEditing) {
+                                      var response = User.changeEmail(
+                                          newEmail:
+                                              emailController.text.trim());
 
-                                    Navigator.pop(context);
-                                    _updateDetailsBottomSheet();
+                                      response.fold((fail) {
+                                        Navigator.pop(context);
+
+                                        emailController = TextEditingController(
+                                            text: user.email);
+
+                                        showSnackbarMsg(
+                                            context: context,
+                                            targetTitle: 'Error',
+                                            targetMessage: fail.error,
+                                            type: ContentType.failure);
+                                      }, (r) {
+                                        Navigator.pop(context);
+                                        _updateDetailsBottomSheet();
+                                      });
+                                    }
                                   },
                                   icon: isEditing
                                       ? const Icon(Icons.send)
@@ -352,7 +424,40 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               verticalGap,
                               ElevatedButtonWidget(
                                 buttonLabel: 'Update',
-                                onPress: () {},
+                                onPress: () {
+                                  log('Current pass: ${currentPasswordController.text.trim()}');
+                                  log('New pass: ${passwordController.text.trim()}');
+                                  log('Confirm pass: ${confirmPasswordController.text.trim()}');
+                                  final response = User.changePassword(
+                                    currentPassword:
+                                        currentPasswordController.text.trim(),
+                                    newPassword: passwordController.text.trim(),
+                                    confirmPassword:
+                                        confirmPasswordController.text.trim(),
+                                  );
+
+                                  response.fold((fail) {
+                                    Navigator.pop(context);
+
+                                    showSnackbarMsg(
+                                      context: context,
+                                      targetTitle: 'Error',
+                                      targetMessage: fail.error,
+                                      type: ContentType.failure,
+                                    );
+                                    // _changePasswordBottomSheet();
+                                  }, (r) {
+                                    Navigator.pop(context);
+
+                                    showSnackbarMsg(
+                                      context: context,
+                                      targetTitle: 'Success',
+                                      targetMessage:
+                                          'Password updated successfully.',
+                                      type: ContentType.success,
+                                    );
+                                  });
+                                },
                               )
                             ],
                           ),
@@ -407,6 +512,18 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    contactController.dispose();
+    emailController.dispose();
+
+    passwordController.dispose();
+    currentPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool darkThemeValue = ref.watch(isDarkThemeProvider);
 
@@ -430,10 +547,12 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   ),
                   IconButton(
                     onPressed: () {
+                      User.signOut();
+
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LoginView()),
+                              builder: (context) => const LoadingScreen()),
                           (route) => false);
                     },
                     icon: const Icon(Icons.logout),
@@ -447,12 +566,12 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 },
                 userBackgroundImage: _img != null
                     ? FileImage(_img!) as ImageProvider<Object>
-                    : const AssetImage('assets/images/users/default_user.png'),
+                    : AssetImage('assets/images/users/${user.picture}'),
                 radius: 60,
               ),
               verticalGap,
               Text(
-                'Sanjiv Shrestha',
+                user.fullName,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               verticalGap,
@@ -465,11 +584,11 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     StatsWidget(
-                        statNum: '7',
+                        statNum: user.reservations.length.toString(),
                         verticalGap: verticalGap,
                         label: 'Reservations'),
                     StatsWidget(
-                        statNum: '3',
+                        statNum: totalReview.toString(),
                         verticalGap: verticalGap,
                         label: 'Reviews'),
                   ],
