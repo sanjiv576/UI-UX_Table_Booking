@@ -26,8 +26,8 @@ class SendNotification {
     }
   }
 
-  static void showSimpleNotifications({required int otp}) async {
-
+  static void showSimpleNotifications(
+      {required String title, required String message}) async {
     log('Simple Notification got clicked');
     // Note: Before making notifications, its details need to be defined for both ios and android
     AndroidNotificationDetails androidNotificationDetails =
@@ -56,8 +56,8 @@ class SendNotification {
     // show the notification
     await notificationsPlugin.show(
         123, // Note thid id must be dynamic, but for demo static int is used
-        'OTP code', // title
-        'Your otp code is: $otp', // body
+        title, // title
+        message, // body
         notificationDetails,
 
         // Note: add payload
