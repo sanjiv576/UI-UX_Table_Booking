@@ -9,6 +9,7 @@ import '../../models/restaurant_entity.dart';
 import '../../models/review_entity.dart';
 import '../../provider/is_dark_theme.dart';
 import '../../router/app_routes.dart';
+import '../../services/user.dart';
 import 'widgets/custom_detect_card_widget.dart';
 
 final addFavoriteProvider = StateProvider<bool>((ref) => false);
@@ -105,27 +106,17 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
   //   }
   // }
 
-  // void _reviewSubmit() {
-  //   if (_formKey.currentState!.validate()) {
-  //     ReviewEntity newReview = ReviewEntity(
-  //       text: _reviewController.text.trim(),
-  //       rating: 3,
-  //       // Note: below fields are inserted by server automatically
-  //       userName: AuthState.userEntity!.fullName,
-  //       userId: 'asdf',
-  //       userPicture: AuthState.userEntity!.picture.toString(),
-  //       restaurantId: '',
-  //     );
-  //     ref
-  //         .watch(reviewsViewModelProvider.notifier)
-  //         .addReview(review: newReview, restaurant: _restaurantEntity!);
+  void _reviewSubmit() {
+    if (_formKey.currentState!.validate()) {
+      User.addReview(
+          restaurantId: _restaurantEntity!.restaurantId,
+          reviewText: _reviewController.text.trim());
 
-  //     setState(() {
-  //       _restaurantReviewsList.insert(0, newReview);
-  //     });
-  //     _reviewController.clear();
-  //   }
-  // }
+      setState(() {});
+
+      _reviewController.clear();
+    }
+  }
 
   _callNow() async {
     String contact = _restaurantEntity!.contact;
@@ -329,7 +320,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                     hintText: 'Enter review here',
                     suffixIcon: IconButton(
                         onPressed: () {
-                          // _reviewSubmit();
+                          _reviewSubmit();
                         },
                         icon: Icon(
                           FontAwesomeIcons.telegram,

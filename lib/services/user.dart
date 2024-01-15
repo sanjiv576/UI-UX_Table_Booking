@@ -1,13 +1,12 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
-import '../data/restaurant_data.dart';
-import '../models/restaurant_entity.dart';
-import '../models/review_entity.dart';
-import '../models/reservation_entity.dart';
+import 'package:uuid/uuid.dart';
 
+import '../data/restaurant_data.dart';
 import '../data/user_data.dart';
 import '../failure/failure.dart';
+import '../models/reservation_entity.dart';
+import '../models/restaurant_entity.dart';
+import '../models/review_entity.dart';
 import '../models/user_entity.dart';
 import 'user_verifcation.dart';
 
@@ -85,6 +84,23 @@ class User {
     );
 
     currentUser!.reservations.insert(0, reservation);
+  }
+
+  // add review
+  static void addReview(
+      {required String restaurantId, required String reviewText}) {
+    ReviewEntity newReview = ReviewEntity(
+      reviewId: const Uuid().v4(),
+      text: reviewText,
+      userId: currentUser!.id,
+      userName: currentUser!.fullName,
+      userPicture: currentUser!.picture,
+    );
+
+    for (var restaurant in RestaurantData.restaurants) {
+      restaurant.reviews!.insert(0, newReview);
+      break;
+    }
   }
 
 // Return the total number of reviews written by a user
