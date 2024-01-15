@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:table_booking/constants/color_constant.dart';
+import '../constants/color_constant.dart';
 
 import '../router/app_routes.dart';
 

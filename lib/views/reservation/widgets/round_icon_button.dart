@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../constants/color_constant.dart';
 
 class RoundIconButton extends StatelessWidget {
   // const RoundIconButton({super.key});
@@ -12,14 +13,17 @@ class RoundIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: onPressedCustom,
+      fillColor: KColors.rose900,
       elevation: 6.0,
       constraints: const BoxConstraints.tightFor(
         height: 50.0,
         width: 50.0,
       ),
       shape: const CircleBorder(),
-      // fillColor: AppColorConstant.roundIconButtonColor,
-      child: Icon(icon),
+      child: Icon(
+        icon,
+        color: Colors.white,
+      ),
     );
   }
 }

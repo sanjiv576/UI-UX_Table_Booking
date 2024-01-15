@@ -1,5 +1,4 @@
 import '../models/reservation_entity.dart';
-
 import '../models/user_entity.dart';
 
 class UserData {

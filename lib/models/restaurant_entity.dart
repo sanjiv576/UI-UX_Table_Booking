@@ -1,5 +1,3 @@
-import 'package:http/http.dart';
-
 import 'review_entity.dart';
 
 class RestaurantEntity {

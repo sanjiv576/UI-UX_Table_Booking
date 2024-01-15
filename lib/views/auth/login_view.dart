@@ -2,10 +2,10 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../common/widgets/snackbar_message_widget.dart';
 
 import '../../common/widgets/bottom_richtext_widget.dart';
 import '../../common/widgets/elevated_button_widget.dart';
+import '../../common/widgets/snackbar_message_widget.dart';
 import '../../common/widgets/text_label_widget.dart';
 import '../../common/widgets/textformfield_widget.dart';
 import '../../router/app_routes.dart';
