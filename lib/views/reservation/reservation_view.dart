@@ -1,13 +1,17 @@
+import 'dart:developer';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../common/widgets/snackbar_message_widget.dart';
 import '../../router/app_routes.dart';
 import '../../common/widgets/elevated_button_widget.dart';
 
 import '../../models/restaurant_entity.dart';
 import '../../provider/is_dark_theme.dart';
 import '../../services/pick_date_time.dart';
+import '../../services/user.dart';
 import 'widgets/custom_date_picker_widget.dart';
 import 'widgets/round_icon_button.dart';
 
@@ -20,25 +24,17 @@ class ReservationView extends ConsumerStatefulWidget {
 }
 
 class _ReservationViewState extends ConsumerState<ReservationView> {
-  bool edit = false;
   int dinerNum = 1;
   String selectedDate = '';
   String selectedTime = '';
-  bool outdoorSelected = false;
-  bool indoorSelected = false;
   late bool isDark;
-  // late Color activeTextColor;
 
   late RestaurantEntity? _restaurantEntity;
-  // ReservationEntity? _reservationEntity;
-  Map<dynamic, dynamic>? arguments;
 
   @override
   void initState() {
     isDark = ref.read(isDarkThemeProvider);
-    // activeTextColor = isDark
-    //     ? AppColorConstant.nightTextColor
-    //     : AppColorConstant.dayTextColor;
+
     super.initState();
   }
 
@@ -51,60 +47,36 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
     super.didChangeDependencies();
   }
 
-  // void _submitReservation() {
-  //   ReservationEntity newReservation = ReservationEntity(
-  //     date: selectedDate,
-  //     time: selectedTime,
-  //     numberOfDinners: dinerNum,
-  //     dinnerPlace: selectedPlace.toString(),
-  //     isCancelled: false,
-  //     isModifiedData: false,
-  //     isFoodOrder: false,
-  //     restaurantName:
-  //         _restaurantEntity != null ? _restaurantEntity!.name : 'NA',
-  //     userId: '1',
-  //   );
+  void _onReservation() {
+    if (selectedDate == '' || selectedTime == '') {
+      showSnackbarMsg(
+        context: context,
+        targetTitle: 'Error',
+        targetMessage: 'Date and Time cannot be empty.',
+        type: ContentType.failure,
+      );
+      return;
+    }
 
-  //   ref.watch(reservationViewModelProvider.notifier).createReservation(
-  //       newReservation, _restaurantEntity!.restaurantId!, context);
-  //   showSnackbarMsg(
-  //     context: context,
-  //     targetTitle: 'Success',
-  //     targetMessage: 'Reservation successfully',
-  //     type: ContentType.success,
-  //   );
+    User.reserveTable(
+      restaurantName: _restaurantEntity!.name,
+      restaurantPicture: _restaurantEntity!.picture,
+      dinerNum: dinerNum,
+      pickDate: selectedDate,
+      pickTime: selectedTime,
+    );
 
-  //   Map<String, String> reservationDetailsMap = {
-  //     'dinerNum': dinerNum.toString(),
-  //     'time': selectedTime.toString(),
-  //     'date': selectedDate.toString(),
-  //     'place': selectedPlace.toString().toLowerCase(),
-  //   };
-  //   _resetProviders();
-  //   Navigator.popAndPushNamed(context, AppRoute.customerConfirmationViewRoute,
-  //       arguments: reservationDetailsMap);
-  // }
+    _resetProviders();
 
-  // void _submitEditReservation() {
-  //   ReservationEntity editedReservation = ReservationEntity(
-  //     date: selectedDate,
-  //     time: selectedTime,
-  //     numberOfDinners: dinerNum,
-  //     dinnerPlace: selectedPlace.toString(),
-  //     isCancelled: false,
-  //     isModifiedData: false,
-  //     isFoodOrder: false,
-  //     restaurantName: '',
-  //     userId: '1',
-  //     reservationId: '1',
-  //   );
+    showSnackbarMsg(
+      context: context,
+      targetTitle: 'Success',
+      targetMessage: 'Reservation successfully',
+      type: ContentType.success,
+    );
 
-// // call update reservation from viewmodel
-//     ref.watch(reservationViewModelProvider.notifier).updateReservation(
-//         editedReservation, _reservationEntity!.reservationId!, context);
-
-//     _resetProviders();
-//   }
+    Navigator.popAndPushNamed(context, AppRoutes.reservationSuccessRoute);
+  }
 
   void _getDatePicker() {
     showDatePicker(
@@ -112,7 +84,7 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(
-          2026), // allow to add today or tomorrow days but not past date
+          2025), // allow to add today or tomorrow days but not past date
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -138,56 +110,11 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
     });
   }
 
-  // void _reservationSubmit() {
-  //   if ((indoorSelected || outdoorSelected)) {
-  //     selectedPlace = indoorSelected ? 'Indoor' : 'Outdoor';
-
-  //     String textMessage = 'Do you sure want to reserve table ?';
-
-  //     showMyDialogBox(textMessage, () {
-  //       _submitReservation();
-  //     }, context);
-  //   } else {
-  //     showSnackbarMsg(
-  //       context: context,
-  //       targetTitle: 'Missing',
-  //       targetMessage: 'Something is missing date, time or dinner place.',
-  //       type: ContentType.failure,
-  //     );
-  //   }
-  // }
-
-  // void _editSubmit() {
-  //   if ((indoorSelected || outdoorSelected)) {
-  //     selectedPlace = indoorSelected ? 'Indoor' : 'Outdoor';
-
-  //     // print('Diner number: $_dinerNum\nDate: ${_selectedDate!}\nTime: ${_selectedTime!}\nPlaceType: $selectedPlace');
-  //     String textMessage = 'Do you sure want to reserve table ?';
-
-  //     showMyDialogBox(textMessage, () {
-  //       _submitEditReservation();
-  //     }, context);
-  //   } else {
-  //     showSnackbarMsg(
-  //       context: context,
-  //       targetTitle: 'Missing',
-  //       targetMessage: 'Something is missing date, time or dinner place.',
-  //       type: ContentType.failure,
-  //     );
-  //   }
-  // }
-
-  String url =
-      'https://hips.hearstapps.com/housebeautiful.cdnds.net/17/42/2048x1024/landscape-1508239345-family-eating-lunch-close-up-of-food-on-wooden-table.jpg?resize=1200:*';
-
   void _resetProviders() {
     setState(() {
       dinerNum = 1;
-      outdoorSelected = false;
-      indoorSelected = false;
       selectedDate = '';
       selectedTime = '';
-      edit = false;
     });
   }
 
@@ -196,7 +123,6 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
 
   @override
   Widget build(BuildContext context) {
-    // final reservationState = ref.watch(reservationViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Now'),
@@ -207,35 +133,6 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ListTile(
-              //   contentPadding: const EdgeInsets.all(0),
-              //   leading: CircleAvatar(
-              //     radius: 50,
-              //     backgroundImage: NetworkImage(
-              //       url,
-              //       // _restaurantEntity != null
-              //       //     ? ApiEndpoints.imageUrl + _restaurantEntity!.picture!
-              //       //     : url,
-              //     ),
-              //     backgroundColor: Colors.white,
-              //   ),
-              //   title: Text(_restaurantEntity!.name
-              //       // _restaurantEntity != null
-              //       //     ? _restaurantEntity!.name
-              //       //     : _reservationEntity!.restaurantName,
-              //       // style: kBoldPoppinsTextStyle.copyWith(
-              //       //     fontSize: 20, color: activeTextColor),
-              //       ),
-              //   trailing: IconButton(
-              //     onPressed: () {
-              //       Navigator.pop(context);
-              //     },
-              //     icon: const Icon(
-              //       Icons.clear,
-              //       // color: activeTextColor,
-              //     ),
-              //   ),
-              // ),
               Row(
                 children: [
                   CircleAvatar(
@@ -339,11 +236,11 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
               verticalGap,
 
               ElevatedButtonWidget(
-                  buttonLabel: 'Book Table',
-                  onPress: () {
-                    Navigator.popAndPushNamed(
-                        context, AppRoutes.reservationSuccessRoute);
-                  })
+                buttonLabel: 'Book Table',
+                onPress: () {
+                  _onReservation();
+                },
+              )
             ],
           ),
         ),

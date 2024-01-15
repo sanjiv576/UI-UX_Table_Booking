@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../models/reservation_entity.dart';
 import '../../common/widgets/elevated_button_widget.dart';
 import '../../provider/is_dark_theme.dart';
 import '../../router/app_routes.dart';
+import '../../services/user.dart';
 
 class ReservationSuccessView extends ConsumerStatefulWidget {
   const ReservationSuccessView({super.key});
@@ -15,6 +17,13 @@ class ReservationSuccessView extends ConsumerStatefulWidget {
 class _ReservationSuccessViewState
     extends ConsumerState<ReservationSuccessView> {
   SizedBox gap = const SizedBox(height: 16);
+
+  late ReservationEntity reservation;
+  @override
+  void initState() {
+    reservation = User.currentUser!.reservations[0];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +53,13 @@ class _ReservationSuccessViewState
             ),
             gap,
             Text(
-              'Your reservation has been confirmed for at .You have reserved table for  people at.',
+              'Your reservation has been confirmed for ${reservation.pickDate} at ${reservation.pickTime}.You have reserved table for ${reservation.guestsNum}  people at ${reservation.restaurantName}.',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             gap,
             const ElevatedButtonWidget(
-                buttonLabel: 'Food Order', onPress: null),
+                buttonLabel: 'Order Food', onPress: null),
             gap,
             ElevatedButtonWidget(
               buttonLabel: 'Skip',
