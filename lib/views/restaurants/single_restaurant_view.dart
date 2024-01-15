@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -27,24 +29,8 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
   final _formKey = GlobalKey<FormState>();
   RestaurantEntity? _restaurantEntity;
   late bool isDark;
-  // late Color activeTextColor;
-  final bool _isFavoriteRestaurant = false;
 
   late List<ReviewEntity> _restaurantReviewsList;
-  late String _favoriteId;
-
-  // void _isFavorite() {
-  //   // check whether this restaurant is favorite or not
-  //   for (var sinlgeFavorite in _restaurantEntity!.favorite!) {
-  //     if (sinlgeFavorite.userId == AuthState.userEntity!.id) {
-  //       setState(() {
-  //         _isFavoriteRestaurant = true;
-  //       });
-  //       _favoriteId = sinlgeFavorite.favoriteId!;
-  //       break;
-  //     }
-  //   }
-  // }
 
   @override
   void didChangeDependencies() {
@@ -52,13 +38,8 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
         ModalRoute.of(context)!.settings.arguments as RestaurantEntity?;
 
     isDark = ref.read(isDarkThemeProvider);
-    // activeTextColor = isDark
-    //     ? AppColorConstant.nightTextColor
-    //     : AppColorConstant.dayTextColor;
 
     _restaurantReviewsList = _restaurantEntity!.reviews!;
-
-    // _isFavorite();
 
     super.didChangeDependencies();
   }
@@ -69,44 +50,8 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
     _reviewController.dispose();
   }
 
-  // void _handleFavorite() {
-  //   if (_isFavoriteRestaurant) {
-  //     setState(() {
-  //       _isFavoriteRestaurant = false;
-  //     });
-
-  //     // remove as favorite
-  //     ref.watch(restaurantViewModelProvider.notifier).deleteFavoriteRestaurant(
-  //         restaurantId: _restaurantEntity!.restaurantId!,
-  //         favoriteId: _favoriteId);
-
-  //     // remove from the favorite list as well
-  //     setState(() {
-  //       _restaurantEntity!.favorite!.removeWhere((singleFavorite) =>
-  //           singleFavorite.userId == AuthState.userEntity!.id);
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _isFavoriteRestaurant = true;
-  //     });
-
-  //     // add as favorite
-  //     ref.watch(restaurantViewModelProvider.notifier).addFavoriteRestaurant(
-  //         restaurantId: _restaurantEntity!.restaurantId!);
-
-  //     FavoriteEntity favoriteEntity = FavoriteEntity(
-  //       userId: AuthState.userEntity!.id ?? '343dffd34dfdf',
-  //       restaurantName: _restaurantEntity!.name,
-  //       userName: AuthState.userEntity!.fullName,
-  //     );
-  //     // add to the favorite list
-  //     setState(() {
-  //       _restaurantEntity!.favorite!.add(favoriteEntity);
-  //     });
-  //   }
-  // }
-
   void _reviewSubmit() {
+    log('Restaurant id: ${_restaurantEntity!.restaurantId}');
     if (_formKey.currentState!.validate()) {
       User.addReview(
           restaurantId: _restaurantEntity!.restaurantId,
@@ -125,9 +70,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
 
   @override
   Widget build(BuildContext context) {
-    // final restaurantState = ref.read(reviewsViewModelProvider);
-    // _restaurantReviewsList = restaurantState.allReviews;
-
     _restaurantReviewsList = _restaurantEntity!.reviews!;
     return Scaffold(
       appBar: AppBar(
@@ -149,9 +91,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                   ),
                 )),
               ),
-              // Image.asset(
-              //   'assets/images/restaurants/${_restaurantEntity!.picture}',
-              // ),
               gap,
               Text(_restaurantEntity!.name,
                   style: Theme.of(context)
@@ -189,7 +128,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                   ),
                 ],
               ),
-
               Row(
                 children: [
                   Expanded(
@@ -217,7 +155,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                   ),
                 ],
               ),
-
               gap,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,13 +168,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                         AppRoutes.reservationRoute,
                         arguments: _restaurantEntity,
                       );
-
-                      // Navigator.pushNamed(
-                      //     context, AppRoute.customerReservationRoute,
-                      //     arguments: {
-                      //       'reservation': null,
-                      //       'restaurant': _restaurantEntity,
-                      //     });
                     },
                   ),
                   CustomDetectCardWidget(
@@ -258,7 +188,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                 ],
               ),
               gap,
-
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
                 leading: IconButton(
@@ -286,7 +215,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                 ),
               ),
               gap,
-
               Text(
                 _restaurantEntity!.description,
                 style: Theme.of(context).textTheme.labelSmall,
@@ -359,20 +287,6 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
 
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
-                    // trailing: Wrap(
-                    //   direction: Axis.horizontal,
-                    //   children: [
-                    //     _restaurantEntity!.reviews![index].userId ==
-                    //             AuthState.userEntity!.id
-                    //         ? IconButton(
-                    //             onPressed: () {},
-                    //             icon: const Icon(Icons.edit),
-                    //           )
-                    //         : Container(
-                    //             child: null,
-                    //           )
-                    //   ],
-                    // ),
                   );
                 }),
               ),
