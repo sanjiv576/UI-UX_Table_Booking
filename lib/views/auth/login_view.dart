@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../common/widgets/snackbar_message_widget.dart';
 
@@ -27,8 +24,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   bool hidePasswordValue = true;
 
-  final _emailController = TextEditingController(text: 'shrestha@gmail.com');
-  final _passwordController = TextEditingController(text: 'a');
+  final _emailController = TextEditingController(text: 'jd@gmail.com');
+  final _passwordController = TextEditingController(text: 'jd123');
   final keyboardType = TextInputType.name;
 
   @override
@@ -49,8 +46,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
       String email = _emailController.text.trim();
       String password = _passwordController.text.trim();
 
-      log('Email: $email, Password: $password');
-
       var result = User.signIn(email: email, password: password);
 
       result.fold((fail) {
@@ -60,8 +55,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
           targetMessage: fail.error,
           type: ContentType.failure,
         );
-      }, (r) => Navigator.pushNamed(context, AppRoutes.navigationRoute));
-
+      }, (r) {
+        _resetControllers();
+        Navigator.pushNamed(context, AppRoutes.navigationRoute);
+      });
     }
   }
 
