@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../services/user.dart';
 
 import '../../common/widgets/bottom_richtext_widget.dart';
 import '../../common/widgets/elevated_button_widget.dart';
 import '../../common/widgets/text_label_widget.dart';
 import '../../common/widgets/textformfield_widget.dart';
-import '../../models/user.dart';
 import '../../router/app_routes.dart';
 import '../../services/notification.dart';
-import '../../services/user_verifcation.dart';
 
 class SignupView extends ConsumerStatefulWidget {
   const SignupView({super.key});
@@ -28,11 +27,11 @@ class _SignupViewState extends ConsumerState<SignupView> {
   bool hidePasswordValue = true;
   bool hideConfirmPasswordValue = true;
 
-  final _fullNameController = TextEditingController(text: 'Sanjiv Shrestha');
-  final _emailController = TextEditingController(text: 'shrestha@gmail.com');
-  final _contactController = TextEditingController(text: '98');
-  final _passwordController = TextEditingController(text: 'aa');
-  final _confirmPasswordController = TextEditingController(text: 'aa');
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _contactController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final keyboardType = TextInputType.name;
 
   @override
@@ -62,11 +61,8 @@ class _SignupViewState extends ConsumerState<SignupView> {
       String password = _passwordController.text.trim();
       String confirmPassword = _confirmPasswordController.text.trim();
 
-      UserEntity user = UserEntity(
-          fullName: name, contact: contact, email: email, password: password);
-
       if (confirmPassword != password) {
-        log('Passwords do not matcj');
+        log('Passwords do not match');
         Fluttertoast.showToast(
           msg: 'Password and Confirm Password must match.',
           backgroundColor: Colors.red,
@@ -75,11 +71,18 @@ class _SignupViewState extends ConsumerState<SignupView> {
         return;
       }
 
-      int otp = UserVerification.getOtp;
-      SendNotification.showSimpleNotifications(otp: otp);
+      // int otp = UserVerification.getOtp;
+
+      int verifyOtp = User.signUp(
+          fullName: name, contact: contact, email: email, password: password);
+
+      SendNotification.showSimpleNotifications(
+          title: 'OTP Code', message: 'Your OTP code is: $verifyOtp');
 
       Navigator.pushNamed(context, AppRoutes.userVerificationRoute,
-          arguments: otp);
+          arguments: verifyOtp);
+
+      _resetControllers();
     }
   }
 
