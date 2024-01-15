@@ -2,12 +2,12 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:table_booking/router/app_routes.dart';
 import '../../common/widgets/elevated_button_widget.dart';
 
 import '../../models/restaurant_entity.dart';
 import '../../provider/is_dark_theme.dart';
 import '../../services/pick_date_time.dart';
-import '../restaurants/widgets/custom_detect_card_widget.dart';
 import 'widgets/custom_date_picker_widget.dart';
 import 'widgets/round_icon_button.dart';
 
@@ -338,7 +338,12 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
               ),
               verticalGap,
 
-              ElevatedButtonWidget(buttonLabel: 'Book Table', onPress: () {})
+              ElevatedButtonWidget(
+                  buttonLabel: 'Book Table',
+                  onPress: () {
+                    Navigator.popAndPushNamed(
+                        context, AppRoutes.reservationSuccessRoute);
+                  })
             ],
           ),
         ),

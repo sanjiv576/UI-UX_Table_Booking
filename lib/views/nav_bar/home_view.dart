@@ -59,20 +59,6 @@ class _HomeState extends ConsumerState<HomeView> with TickerProviderStateMixin {
           'Home',
         ),
         elevation: 4,
-        actions: [
-          Switch(
-              value: darkThemeValue,
-              onChanged: (value) {
-                setState(() {
-                  // update the theme
-                  ref.watch(isDarkThemeProvider.notifier).updateTheme(value);
-
-                  darkThemeValue = value;
-
-                  log('Print : $darkThemeValue');
-                });
-              }),
-        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

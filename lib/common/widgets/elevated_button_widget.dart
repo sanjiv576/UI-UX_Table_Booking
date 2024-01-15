@@ -6,11 +6,11 @@ class ElevatedButtonWidget extends StatelessWidget {
   const ElevatedButtonWidget({
     super.key,
     required this.buttonLabel,
-    required this.onPress,
+     this.onPress,
   });
 
   final String buttonLabel;
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
 
   @override
   Widget build(BuildContext context) {

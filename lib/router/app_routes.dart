@@ -1,6 +1,6 @@
+import '../views/reservation/reservation_success_view.dart';
 import '../views/reservation/reservation_view.dart';
 import '../views/restaurants/single_restaurant_view.dart';
-
 import '../views/auth/login_view.dart';
 import '../views/auth/signup_view.dart';
 import '../views/auth/user_verification_view.dart';
@@ -27,6 +27,7 @@ class AppRoutes {
   static const String userVerificationRoute = '/verify';
   static const String singleRestaurantRoute = '/restaurant';
   static const String reservationRoute = '/reservation';
+  static const String reservationSuccessRoute = '/success';
 
   static getAppRoutes() {
     return {
@@ -41,6 +42,7 @@ class AppRoutes {
       userVerificationRoute: (context) => const UserVerificationView(),
       singleRestaurantRoute: (context) => const RestaurantView(),
       reservationRoute: (context) => const ReservationView(),
+      reservationSuccessRoute: (context) => const ReservationSuccessView(),
     };
   }
 }
