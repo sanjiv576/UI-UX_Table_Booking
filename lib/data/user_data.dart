@@ -1,4 +1,4 @@
-import 'package:table_booking/models/reservation_entity.dart';
+import '../models/reservation_entity.dart';
 
 import '../models/user_entity.dart';
 
