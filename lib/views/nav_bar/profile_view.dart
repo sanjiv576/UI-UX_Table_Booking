@@ -7,17 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../common/widgets/snackbar_message_widget.dart';
-import '../loading_screen_view.dart';
+
 import '../../common/widgets/elevated_button_widget.dart';
+import '../../common/widgets/snackbar_message_widget.dart';
 import '../../common/widgets/text_label_widget.dart';
 import '../../common/widgets/textformfield_widget.dart';
 import '../../constants/color_constant.dart';
 import '../../models/user_entity.dart';
 import '../../provider/is_dark_theme.dart';
-
 import '../../services/user.dart';
-import '../auth/login_view.dart';
+import '../loading_screen_view.dart';
 import 'widgets/profile_edit_widget.dart';
 import 'widgets/profile_widget.dart';
 import 'widgets/stats_widget.dart';
