@@ -10,6 +10,7 @@ import '../../common/widgets/reusable_pinput_widget.dart';
 import '../../common/widgets/snackbar_message_widget.dart';
 import '../../router/app_routes.dart';
 import '../../services/notification.dart';
+import '../../services/user.dart';
 import '../../services/user_verifcation.dart';
 
 class UserVerificationView extends ConsumerStatefulWidget {
@@ -37,23 +38,23 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
   final _horizontalGap = const SizedBox(height: 12);
 
   void _submitPins({required otpPin}) {
-    if (UserVerification.checkOtp(yourOTP: int.parse(otpPin))) {
+    var response = User.verifyUser(otpPin: otpPin);
+    response.fold((fail) {
+      showSnackbarMsg(
+          context: context,
+          targetTitle: 'Failed',
+          targetMessage: fail.error,
+          type: ContentType.failure);
+    }, (r) {
+      _resetControllers();
       showSnackbarMsg(
           context: context,
           targetTitle: 'Success',
           targetMessage: 'Congratulations ! Your account has been created.',
           type: ContentType.success);
 
-      Navigator.popAndPushNamed(context, AppRoutes.navigationRoute);
-    } else {
-      String errorMsg =
-          '$otpPin OTP code does not match. Try Again. Correct OTP code is $_correctOTP';
-      showSnackbarMsg(
-          context: context,
-          targetTitle: 'Error',
-          targetMessage: errorMsg,
-          type: ContentType.failure);
-    }
+      Navigator.popAndPushNamed(context, AppRoutes.loginRoute);
+    });
 
     _resetFullPin();
     _resetControllers();
@@ -70,7 +71,8 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
 
   void _resendOtp() {
     _correctOTP = UserVerification.getOtp;
-    SendNotification.showSimpleNotifications(otp: _correctOTP!);
+    SendNotification.showSimpleNotifications(
+        message: 'New OTP code is: $_correctOTP!', title: 'New OTP Code');
     log('Resend correct OTP: $_correctOTP');
 
     // showSnackbarMsg(
@@ -87,7 +89,6 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
 
     _correctOTP = ModalRoute.of(context)?.settings.arguments as int;
     log('Correct OTP: $_correctOTP');
-
   }
 
   @override
