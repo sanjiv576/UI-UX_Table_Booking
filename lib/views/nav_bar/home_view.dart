@@ -8,6 +8,7 @@ import '../../data/story_data.dart';
 import '../../models/restaurant_entity.dart';
 import '../../models/story_entity.dart';
 import '../../provider/is_dark_theme.dart';
+import '../../services/user.dart';
 import '../restaurants/widgets/all_restaurants_widget.dart';
 import '../restaurants/widgets/popular_restaurants_widget.dart';
 import '../restaurants/widgets/story_widget.dart';
@@ -68,7 +69,7 @@ class _HomeState extends ConsumerState<HomeView> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hi 👋, Sanjiv',
+                  'Hi 👋, ${User.currentUser!.fullName.split(' ')[0]}',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 _verticalGap,
