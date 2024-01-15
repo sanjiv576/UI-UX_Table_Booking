@@ -1,3 +1,4 @@
+import '../views/loading_screen_view.dart';
 import '../views/reservation/reservation_success_view.dart';
 import '../views/reservation/reservation_view.dart';
 import '../views/restaurants/single_restaurant_view.dart';
@@ -28,6 +29,7 @@ class AppRoutes {
   static const String singleRestaurantRoute = '/restaurant';
   static const String reservationRoute = '/reservation';
   static const String reservationSuccessRoute = '/success';
+  static const String loadingRoute = '/loading';
 
   static getAppRoutes() {
     return {
@@ -43,6 +45,7 @@ class AppRoutes {
       singleRestaurantRoute: (context) => const RestaurantView(),
       reservationRoute: (context) => const ReservationView(),
       reservationSuccessRoute: (context) => const ReservationSuccessView(),
+      loadingRoute: (context) => const LoadingScreen(),
     };
   }
 }
