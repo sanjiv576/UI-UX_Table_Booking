@@ -1,4 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- permission for camera access -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- permission option for storing external image  -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:label="Table Reservation"
         android:name="${applicationName}"

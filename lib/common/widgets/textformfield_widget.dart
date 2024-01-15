@@ -12,6 +12,7 @@ class TextFormFieldWidget extends ConsumerWidget {
     required this.hintTextLable,
     required this.prefixIconData,
     required this.suffixIconButton,
+    this.isTextEditable,
   });
 
   final bool isRequired;
@@ -22,6 +23,7 @@ class TextFormFieldWidget extends ConsumerWidget {
   final String hintTextLable;
   final IconData prefixIconData;
   final IconButton? suffixIconButton;
+  final bool? isTextEditable;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,6 +34,7 @@ class TextFormFieldWidget extends ConsumerWidget {
         }
         return null;
       },
+      enabled: isTextEditable ?? true,
       style: const TextStyle(color: Colors.black),
       controller: controller,
       obscureText: hideValue,
