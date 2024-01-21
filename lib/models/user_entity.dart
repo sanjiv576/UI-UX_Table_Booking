@@ -17,7 +17,7 @@ class UserEntity {
     String? picture,
     required this.password,
     List<ReservationEntity>? reservations,
-  })  : picture = picture ?? 'default_img.png',
+  })  : picture = picture ?? 'default_user.png',
         reservations = reservations ?? [];
 
   @override

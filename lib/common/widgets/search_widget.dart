@@ -43,8 +43,8 @@ class SearchBarWidget extends ConsumerWidget {
                 hintText: hintText,
                 hintStyle: Theme.of(context)
                     .textTheme
-                    .titleSmall!
-                    .copyWith(color: Colors.black),
+                    .bodyMedium!
+                    .copyWith(color: Colors.grey[800]),
                 border: InputBorder.none,
               ),
             ),

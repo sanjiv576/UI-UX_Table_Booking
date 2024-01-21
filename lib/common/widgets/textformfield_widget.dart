@@ -43,7 +43,10 @@ class TextFormFieldWidget extends ConsumerWidget {
         filled: true,
         fillColor: Colors.white,
         hintText: hintTextLable,
-        hintStyle: const TextStyle(color: Colors.grey),
+        hintStyle: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(color: Colors.grey[800]),
         prefixIcon: Icon(
           prefixIconData,
           color: Colors.black,
