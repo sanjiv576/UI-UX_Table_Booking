@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:uuid/uuid.dart';
 
@@ -237,5 +239,22 @@ class User {
     }
 
     return Left(Failure(error: 'Something went wrong.'));
+  }
+
+  static changeUserPicture(File img) {
+    for (var user in UserData.users) {
+      if (user.id == currentUser!.id) {
+        // update picture in the state
+        currentUser = UserEntity(
+            id: currentUser!.id,
+            fullName: currentUser!.fullName,
+            contact: currentUser!.contact,
+            email: currentUser!.email,
+            password: currentUser!.password,
+            picture: img as String);
+
+        return const Right(true);
+      }
+    }
   }
 }
