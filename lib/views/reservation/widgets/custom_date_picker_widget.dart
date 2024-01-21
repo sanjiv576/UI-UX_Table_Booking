@@ -40,7 +40,7 @@ class CustomDateTimePickerWidget extends StatelessWidget {
               ),
               gap,
               Text(
-                _dateTimeValue.toString(),
+                _dateTimeValue.isEmpty ? 'NA' : _dateTimeValue.toString(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleMedium,
 

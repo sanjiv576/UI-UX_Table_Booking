@@ -21,7 +21,7 @@ import 'widgets/profile_edit_widget.dart';
 import 'widgets/profile_widget.dart';
 import 'widgets/stats_widget.dart';
 
-File? _img;
+File? img;
 
 final editProvider = StateProvider<bool>((ref) => false);
 
@@ -85,8 +85,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
       final image = await ImagePicker().pickImage(source: imageSource);
       if (image != null) {
         setState(() {
-          _img = File(image.path);
+          img = File(image.path);
         });
+        User.currentUser!.picture = img as String;
+        User.changeUserPicture(img!);
       } else {
         return;
       }
@@ -143,7 +145,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                   hideValue: false,
                                   keyboardType: TextInputType.text,
                                   hintTextLable: 'Change name',
-                                  prefixIconData: FontAwesomeIcons.userCircle,
+                                  prefixIconData:
+                                      FontAwesomeIcons.solidUserCircle,
                                   suffixIconButton: IconButton(
                                     onPressed: () {
                                       ref.watch(editProvider.notifier).state =
@@ -553,11 +556,22 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    'Logout',
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline),
+                  InkWell(
+                    onTap: () {
+                      User.signOut();
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoadingScreen()),
+                          (route) => false);
+                    },
+                    child: Text(
+                      'Logout',
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline),
+                    ),
                   ),
                   IconButton(
                     onPressed: () {
@@ -578,8 +592,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 onPressed: () {
                   _modalForCamera();
                 },
-                userBackgroundImage: _img != null
-                    ? FileImage(_img!) as ImageProvider<Object>
+                userBackgroundImage: img != null
+                    ? FileImage(img!) as ImageProvider<Object>
                     : AssetImage('assets/images/users/${user.picture}'),
                 radius: 60,
               ),
@@ -609,28 +623,34 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 ),
               ),
               verticalGap,
-              ProfileEditWidget(
-                label: 'Update Details',
-                leadingIconData: Icons.edit,
-                trailingWidget: IconButton(
-                  onPressed: () => _updateDetailsBottomSheet(),
-                  icon: const Icon(
-                    Icons.navigate_next,
-                    color: Colors.black,
-                    size: 40,
+              GestureDetector(
+                onTap: _updateDetailsBottomSheet,
+                child: ProfileEditWidget(
+                  label: 'Update Details',
+                  leadingIconData: Icons.edit,
+                  trailingWidget: IconButton(
+                    onPressed: () => _updateDetailsBottomSheet(),
+                    icon: const Icon(
+                      Icons.navigate_next,
+                      color: Colors.black,
+                      size: 40,
+                    ),
                   ),
                 ),
               ),
               verticalGap,
-              ProfileEditWidget(
-                label: 'Change Password',
-                leadingIconData: Icons.lock,
-                trailingWidget: IconButton(
-                  onPressed: () => _changePasswordBottomSheet(),
-                  icon: const Icon(
-                    Icons.navigate_next,
-                    color: Colors.black,
-                    size: 40,
+              GestureDetector(
+                onTap: _changePasswordBottomSheet,
+                child: ProfileEditWidget(
+                  label: 'Change Password',
+                  leadingIconData: Icons.lock,
+                  trailingWidget: IconButton(
+                    onPressed: () => _changePasswordBottomSheet(),
+                    icon: const Icon(
+                      Icons.navigate_next,
+                      color: Colors.black,
+                      size: 40,
+                    ),
                   ),
                 ),
               ),

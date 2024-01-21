@@ -251,7 +251,7 @@ class _RestaurantViewState extends ConsumerState<RestaurantView> {
                           _reviewSubmit();
                         },
                         icon: Icon(
-                          FontAwesomeIcons.telegram,
+                          Icons.send,
                           color: isDark ? Colors.white : Colors.blue,
                         )),
                     hintStyle: Theme.of(context).textTheme.titleSmall,

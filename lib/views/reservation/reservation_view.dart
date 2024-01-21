@@ -2,6 +2,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../common/widgets/elevated_button_widget.dart';
 import '../../common/widgets/snackbar_message_widget.dart';
@@ -56,24 +57,65 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
       return;
     }
 
-    User.reserveTable(
-      restaurantName: _restaurantEntity!.name,
-      restaurantPicture: _restaurantEntity!.picture,
-      dinerNum: dinerNum,
-      pickDate: selectedDate,
-      pickTime: selectedTime,
-    );
-
-    _resetProviders();
-
-    showSnackbarMsg(
+    Alert(
       context: context,
-      targetTitle: 'Success',
-      targetMessage: 'Reservation successfully',
-      type: ContentType.success,
-    );
+      type: AlertType.info,
+      style: AlertStyle(
+        isCloseButton: false,
+        descStyle: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(color: Colors.white),
+        titleStyle: Theme.of(context)
+            .textTheme
+            .headlineMedium!
+            .copyWith(color: Colors.white),
+      ),
+      title: "Information",
+      desc:
+          "Are you sure want to reserve the table for $dinerNum people on $selectedDate, at $selectedTime ?",
+      buttons: [
+        DialogButton(
+          onPressed: () {
+            User.reserveTable(
+              restaurantName: _restaurantEntity!.name,
+              restaurantPicture: _restaurantEntity!.picture,
+              dinerNum: dinerNum,
+              pickDate: selectedDate,
+              pickTime: selectedTime,
+            );
 
-    Navigator.popAndPushNamed(context, AppRoutes.reservationSuccessRoute);
+            _resetProviders();
+
+            showSnackbarMsg(
+              context: context,
+              targetTitle: 'Success',
+              targetMessage: 'Reservation successfully',
+              type: ContentType.success,
+            );
+
+            Navigator.popAndPushNamed(
+                context, AppRoutes.reservationSuccessRoute);
+          },
+          color: const Color.fromRGBO(0, 179, 134, 1.0),
+          child: const Text(
+            "Yes",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          gradient: const LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+          child: const Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ],
+    ).show();
   }
 
   void _getDatePicker() {
@@ -214,20 +256,26 @@ class _ReservationViewState extends ConsumerState<ReservationView> {
 
               Row(
                 children: [
-                  CustomDateTimePickerWidget(
-                    // gap: gap,
-                    gap: const SizedBox(height: 15),
+                  GestureDetector(
                     onTap: _getDatePicker,
-                    textTitle: 'Pick Date',
-                    dateTimeValue: selectedDate,
+                    child: CustomDateTimePickerWidget(
+                      // gap: gap,
+                      gap: const SizedBox(height: 15),
+                      onTap: _getDatePicker,
+                      textTitle: 'Pick Date',
+                      dateTimeValue: selectedDate,
+                    ),
                   ),
                   const Spacer(),
-                  CustomDateTimePickerWidget(
-                    // gap: gap,
-                    gap: const SizedBox(height: 15),
+                  GestureDetector(
                     onTap: _getTimePicker,
-                    textTitle: 'Pick Time',
-                    dateTimeValue: selectedTime,
+                    child: CustomDateTimePickerWidget(
+                      // gap: gap,
+                      gap: const SizedBox(height: 15),
+                      onTap: _getTimePicker,
+                      textTitle: 'Pick Time',
+                      dateTimeValue: selectedTime,
+                    ),
                   ),
                 ],
               ),

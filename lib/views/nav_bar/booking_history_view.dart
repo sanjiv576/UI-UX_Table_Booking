@@ -101,7 +101,7 @@ class _BookingHistoryViewState extends ConsumerState<BookingHistoryView> {
             Row(
               children: [
                 const Icon(
-                  Icons.calendar_month,
+                  FontAwesomeIcons.calendarAlt,
                   color: Colors.black,
                 ),
                 horizontalGap,
@@ -117,7 +117,7 @@ class _BookingHistoryViewState extends ConsumerState<BookingHistoryView> {
             verticalGap,
             Row(
               children: [
-                const Icon(FontAwesomeIcons.clock, color: Colors.black),
+                const Icon(FontAwesomeIcons.solidClock, color: Colors.black),
                 horizontalGap,
                 Text(
                   singleReservation.pickTime,
@@ -132,7 +132,7 @@ class _BookingHistoryViewState extends ConsumerState<BookingHistoryView> {
             Row(
               children: [
                 const Icon(
-                  FontAwesomeIcons.userCircle,
+                  FontAwesomeIcons.solidUserCircle,
                   color: Colors.black,
                 ),
                 horizontalGap,
