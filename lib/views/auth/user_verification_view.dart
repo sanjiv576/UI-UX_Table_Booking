@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../common/widgets/bottom_richtext_widget.dart';
 import '../../common/widgets/elevated_button_widget.dart';
@@ -32,6 +34,9 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
   final _pin3Controller = TextEditingController();
   final _pin4Controller = TextEditingController();
 
+  late int _expireTimeInSeconds;
+  late Timer _timer;
+
   final _formKey = GlobalKey<FormState>();
 
   final _verticalGap = const SizedBox(height: 16);
@@ -53,7 +58,7 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
           targetMessage: 'Congratulations ! Your account has been created.',
           type: ContentType.success);
 
-      Navigator.popAndPushNamed(context, AppRoutes.loginRoute);
+      Navigator.popAndPushNamed(context, AppRoutes.navigationRoute);
     });
 
     _resetFullPin();
@@ -73,14 +78,12 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
     _correctOTP = UserVerification.getOtp;
     SendNotification.showSimpleNotifications(
         message: 'New OTP code is: $_correctOTP!', title: 'New OTP Code');
-    log('Resend correct OTP: $_correctOTP');
 
-    // showSnackbarMsg(
-    //   context: context,
-    //   targetTitle: 'New OTP code',
-    //   targetMessage: 'New OTP code is $_correctOTP',
-    //   type: ContentType.help,
-    // );
+    setState(() {
+      _expireTimeInSeconds = 120;
+      _startTimer();
+    });
+    log('Resend correct OTP: $_correctOTP');
   }
 
   @override
@@ -104,11 +107,39 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
     _pin4Controller.dispose();
   }
 
+  String _formatTimer(int seconds) {
+    int minutes = seconds ~/ 60;
+    int remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
   @override
   void initState() {
+    _expireTimeInSeconds = 120; // 2 mins
+    _startTimer();
     SendNotification.checkForNotifications();
 
     super.initState();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_expireTimeInSeconds > 0) {
+          _expireTimeInSeconds--;
+          if (_expireTimeInSeconds == 0) {
+            UserVerification.isOTPexpired = true;
+          } else {
+            UserVerification.isOTPexpired = false;
+          }
+        } else {
+          // Timer expired
+          Fluttertoast.showToast(
+              msg: 'OTP code is expired. Please, send new code.');
+          _timer.cancel();
+        }
+      });
+    });
   }
 
   @override
@@ -190,7 +221,7 @@ class _UserVerificationViewState extends ConsumerState<UserVerificationView> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Text(
-                    'OTP expires in 01:57',
+                    'OTP expires in ${_formatTimer(_expireTimeInSeconds)}',
                     textAlign: TextAlign.end,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),

@@ -3,8 +3,10 @@ import 'dart:math';
 class UserVerification {
   static final Random _random = Random();
   static int? _otp;
+  static bool isOTPexpired = true;
 
   static int _generateOtp() {
+    isOTPexpired = false;
     int min = 0000;
     int max = 9999;
     _otp = min + _random.nextInt(max - min);
@@ -17,5 +19,8 @@ class UserVerification {
   static bool _checkOtp({required int otp}) => _otp == otp;
 
 // setter method only for checking whether given otp code is correct or not
-  static bool checkOtp({required int yourOTP}) => _checkOtp(otp: yourOTP);
+  static bool checkOtp({required int yourOTP}) =>
+      isOTPexpired ? false : _checkOtp(otp: yourOTP);
+
+  
 }
